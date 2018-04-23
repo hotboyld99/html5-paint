@@ -1,0 +1,108 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <style>
+    body {
+        background: #aaa;
+        margin-top: 50px;
+        text-align: center;
+    }
+
+    canvas {
+        border: 1px solid #000;
+        cursor: default;
+    }
+    </style>
+</head>
+<body>
+    <div id="dfps"></div>
+    <br />
+    <div id="paint">
+        <canvas id="myCanvas" width="500" height="300"></canvas>
+    </div>
+    <select id="size">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+    </select>
+    <select id="color">
+        <option value="#000000">Đen</option>
+        <option value="#FFFFFF">Trắng</option>
+        <option value="#FF0000">Đỏ</option>
+        <option value="#FFF000">Vàng</option>
+        <option value="#FF00FF">Hồng</option>
+        <option value="#00FF00">Xanh Lá</option>
+        <option value="#00FFFF">Xanh Dương</option>
+        <option value="#000FFF">Xanh Lam</option>
+        <option value="#AA00FF">Tím</option>
+        <option value="#FFAA00">Da Cam</option>
+    </select>
+    <script>
+    var canvas = document.getElementById('myCanvas');
+    var ctx = canvas.getContext('2d');
+    var painting = document.getElementById('paint');
+    var paint_style = getComputedStyle(painting);
+    var mouse = { x: 0, y: 0 };
+    var size = document.getElementById('size');
+    var color = document.getElementById('color');
+    var dfps = document.getElementById("dfps");
+
+
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    size.addEventListener('click', function() { ctx.lineWidth = size.value; }, false);
+    color.addEventListener('click', function() { ctx.strokeStyle = color.value; }, false);
+
+    canvas.addEventListener('mousemove', function(e) { mouse.x = e.pageX - this.offsetLeft;
+        mouse.y = e.pageY - this.offsetTop; }, false);
+    canvas.addEventListener('mousedown', function(e) { ctx.beginPath();
+        ctx.moveTo(mouse.x, mouse.y);
+        canvas.addEventListener('mousemove', onPaint, false); }, false);
+    canvas.addEventListener('mouseup', function() { canvas.removeEventListener('mousemove', onPaint, false); }, false);
+
+    var onPaint = function() { ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke(); };
+    // FPS
+    function load() { dfps.innerHTML = "FPS: " + fps; }
+    setInterval(load, 10);
+    var lastframe = 0;
+    var fpstime = 0;
+    var framecount = 0;
+    var fps = 0;
+    main(0);
+
+    function main(tframe) { window.requestAnimationFrame(main);
+        update(tframe); }
+
+    function update(tframe) { var dt = (tframe - lastframe) / 1000;
+        lastframe = tframe;
+        updateFps(dt); }
+
+    function updateFps(dt) {
+        if (fpstime > 0.25) { fps = Math.round(framecount / fpstime);
+            fpstime = 0;
+            framecount = 0; }
+        fpstime += dt;
+        framecount++;
+    }
+    </script>
+</body>
+
+</html>
