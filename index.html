@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html>
 <head>
     <style>
@@ -18,7 +18,7 @@
     <div id="dfps"></div>
     <br />
     <div id="paint">
-        <canvas id="myCanvas" width="500" height="300"></canvas>
+        <canvas id="myCanvas" width="640" height="480"></canvas>
     </div>
     <select id="size">
         <option value="1">1</option>
@@ -42,18 +42,7 @@
         <option value="19">19</option>
         <option value="20">20</option>
     </select>
-    <select id="color">
-        <option value="#000000">Đen</option>
-        <option value="#FFFFFF">Trắng</option>
-        <option value="#FF0000">Đỏ</option>
-        <option value="#FFF000">Vàng</option>
-        <option value="#FF00FF">Hồng</option>
-        <option value="#00FF00">Xanh Lá</option>
-        <option value="#00FFFF">Xanh Dương</option>
-        <option value="#000FFF">Xanh Lam</option>
-        <option value="#AA00FF">Tím</option>
-        <option value="#FFAA00">Da Cam</option>
-    </select>
+    <input type="color" id="color" value="#f00">
     <script>
     var canvas = document.getElementById('myCanvas');
     var ctx = canvas.getContext('2d');
@@ -68,7 +57,7 @@
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
     size.addEventListener('click', function() { ctx.lineWidth = size.value; }, false);
-    color.addEventListener('click', function() { ctx.strokeStyle = color.value; }, false);
+    color.addEventListener('change', function() { ctx.strokeStyle = color.value; }, false);
 
     canvas.addEventListener('mousemove', function(e) { mouse.x = e.pageX - this.offsetLeft;
         mouse.y = e.pageY - this.offsetTop; }, false);
